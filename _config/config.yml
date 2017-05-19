@@ -1,0 +1,9 @@
+---
+Name: 'googletagmanager'
+---
+Page:
+  extensions:
+    - GoogleTagManagerPageExtension
+SiteConfig:
+  extensions:
+    - GoogleTagManagerSiteConfigExtension

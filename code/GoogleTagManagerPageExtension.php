@@ -1,6 +1,6 @@
 <?php
 
-class GoogleTagManagerExtender extends DataExtension {
+class GoogleTagManagerPageExtension extends DataExtension {
 
 	function contentControllerInit($controller) {
 		if ( $GTMContainerID = $this->owner->SiteConfig->GTMContainerID) {

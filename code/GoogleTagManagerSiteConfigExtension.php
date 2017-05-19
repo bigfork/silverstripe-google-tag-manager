@@ -1,5 +1,5 @@
 <?php
-class GoogleTagManager extends DataExtension
+class GoogleTagManagerSiteConfigExtension extends DataExtension
 {
         static $db = array(
             'GTMContainerID' => 'Text'
