@@ -3,7 +3,7 @@ Name: 'googletagmanager'
 ---
 Page:
   extensions:
-    - GoogleTagManagerPageExtension
+    - Bigfork\SilverStripeGoogleTagManager\Extension\PageExtension
 SiteConfig:
   extensions:
-    - GoogleTagManagerSiteConfigExtension
+    - Bigfork\SilverStripeGoogleTagManager\Extension\SiteConfigExtension
