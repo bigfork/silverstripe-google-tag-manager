@@ -23,6 +23,7 @@ class RequestFilter implements SilverStripeRequestFilter
 
     /**
      * Inserts the Google Tag Manager <noscript> tag after the opening <body> tag
+     *
      * {@inheritdoc}
      */
     public function postRequest(SS_HTTPRequest $request, SS_HTTPResponse $response, DataModel $model)
@@ -34,8 +35,8 @@ class RequestFilter implements SilverStripeRequestFilter
         if (!in_array($response->getStatusCode(), $redirectCodes) && $siteConfig->GTMContainerID) {
             $body = $response->getBody();
 
-            // Response body could be quite large, and we don't want the code inserted in the admin area,
-            // so we search for a placeholder added earlier in the request
+            // Response body could be quite large, and we don't want the code inserted in the admin area, so we do a
+            // "dumb" search for a placeholder added earlier in the request before using regular expressions
             if (strpos($body, static::NOSCRIPT_PLACEHOLDER) !== false) {
                 $script = $siteConfig->renderWith('GoogleTagManagerNoScript')
                     ->setProcessShortcodes(false)
