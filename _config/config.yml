@@ -7,3 +7,13 @@ Page:
 SiteConfig:
   extensions:
     - Bigfork\SilverStripeGoogleTagManager\Extension\SiteConfigExtension
+---
+Name: 'googletagmanagerrequestprocessors'
+Before:
+  - '#requestprocessors'
+---
+Injector:
+  RequestProcessor:
+    properties:
+      filters:
+        - '%$Bigfork\SilverStripeGoogleTagManager\Control\RequestFilter'
