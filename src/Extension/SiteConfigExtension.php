@@ -2,15 +2,15 @@
 
 namespace Bigfork\SilverStripeGoogleTagManager\Extension;
 
-use Extension;
-use FieldList;
-use TextField;
+use SilverStripe\Core\Extension;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\TextField;
 
 class SiteConfigExtension extends Extension
 {
-    private static $db = array(
+    private static $db = [
         'GTMContainerID' => 'Text'
-    );
+    ];
 
     /**
      * @param FieldList $fields

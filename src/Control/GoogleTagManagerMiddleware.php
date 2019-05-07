@@ -2,43 +2,29 @@
 
 namespace Bigfork\SilverStripeGoogleTagManager\Control;
 
-use DataModel;
-use RequestFilter as SilverStripeRequestFilter;
-use Session;
-use SiteConfig;
-use SS_HTTPRequest;
-use SS_HTTPResponse;
+use SilverStripe\Control\HTTPRequest;
+use SilverStripe\Control\HTTPResponse;
+use SilverStripe\Control\Middleware\HTTPMiddleware;
+use SilverStripe\SiteConfig\SiteConfig;
 
-class RequestFilter implements SilverStripeRequestFilter
+class GoogleTagManagerMiddleware implements HTTPMiddleware
 {
     const NOSCRIPT_PLACEHOLDER = '%%NOSCRIPT_PLACEHOLDER%%';
 
-    /**
-     * {@inheritdoc}
-     */
-    public function preRequest(SS_HTTPRequest $request, Session $session, DataModel $model)
+    public function process(HTTPRequest $request, callable $delegate)
     {
-        return true;
-    }
-
-    /**
-     * Inserts the Google Tag Manager <noscript> tag after the opening <body> tag
-     *
-     * {@inheritdoc}
-     */
-    public function postRequest(SS_HTTPRequest $request, SS_HTTPResponse $response, DataModel $model)
-    {
+        /** @var HTTPResponse $response */
+        $response = $delegate($request);
         $siteConfig = SiteConfig::current_site_config();
-        $redirectCodes = array(301, 302, 303, 304, 305, 307);
 
         // There's no point trying to insert tag manager code to redirects
-        if (!in_array($response->getStatusCode(), $redirectCodes) && $siteConfig->GTMContainerID) {
+        if (!$response->isRedirect() && $siteConfig->GTMContainerID) {
             $body = $response->getBody();
 
             // Response body could be quite large, and we don't want the code inserted in the admin area, so we do a
             // "dumb" search for a placeholder added earlier in the request before using regular expressions
             if (strpos($body, static::NOSCRIPT_PLACEHOLDER) !== false) {
-                $script = $siteConfig->renderWith('GoogleTagManagerNoScript')
+                $script = $siteConfig->renderWith('Bigfork\SilverStripeGoogleTagManager\GoogleTagManagerNoScript')
                     ->setProcessShortcodes(false)
                     ->forTemplate();
 
@@ -51,6 +37,6 @@ class RequestFilter implements SilverStripeRequestFilter
             }
         }
 
-        return true;
+        return $response;
     }
 }

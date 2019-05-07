@@ -1,6 +1,6 @@
 {
 	"name": "bigfork/silverstripe-googletagmanager",
-	"type": "silverstripe-module",
+	"type": "silverstripe-vendormodule",
 	"description": "Google Tag Manager Module for SilverStripe",
 	"keywords": ["silverstripe", "google", "tag", "manager", "gtm", "analytics"],
 	"authors": [
@@ -15,10 +15,14 @@
 	],
 	"license": "BSD-3-Clause",
 	"require": {
-        "silverstripe/framework": "^3",
-        "silverstripe/cms": "^3"
+        "silverstripe/framework": "^4",
+        "silverstripe/cms": "^4"
 	},
 	"extra": {
-		"installer-name": "googletagmanager"
-	}
+        "branch-alias": {
+            "dev-master": "2.x-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

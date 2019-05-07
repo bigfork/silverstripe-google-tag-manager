@@ -2,11 +2,11 @@
 
 namespace Bigfork\SilverStripeGoogleTagManager\Extension;
 
-use Bigfork\SilverStripeGoogleTagManager\Control\RequestFilter;
-use ContentController;
-use Extension;
-use Requirements;
-use SiteConfig;
+use Bigfork\SilverStripeGoogleTagManager\Control\GoogleTagManagerMiddleware;
+use SilverStripe\CMS\Controllers\ContentController;
+use SilverStripe\Core\Extension;
+use SilverStripe\SiteConfig\SiteConfig;
+use SilverStripe\View\Requirements;
 
 class PageExtension extends Extension
 {
@@ -17,8 +17,9 @@ class PageExtension extends Extension
     {
         $siteConfig = SiteConfig::current_site_config();
         if ($siteConfig->GTMContainerID) {
-            Requirements::insertHeadTags($siteConfig->renderWith('GoogleTagManagerSnippet'));
-            Requirements::insertHeadTags(RequestFilter::NOSCRIPT_PLACEHOLDER);
+            $snippet = $siteConfig->renderWith('Bigfork\SilverStripeGoogleTagManager\GoogleTagManagerSnippet');
+            Requirements::insertHeadTags($snippet->forTemplate());
+            Requirements::insertHeadTags(GoogleTagManagerMiddleware::NOSCRIPT_PLACEHOLDER);
         }
     }
 }

@@ -1,19 +1,17 @@
 ---
-Name: 'googletagmanager'
+Name: googletagmanagerconfig
 ---
-Page:
+SilverStripe\CMS\Model\SiteTree:
   extensions:
-    - Bigfork\SilverStripeGoogleTagManager\Extension\PageExtension
-SiteConfig:
+    - 'Bigfork\SilverStripeGoogleTagManager\Extension\PageExtension'
+SilverStripe\SiteConfig\SiteConfig:
   extensions:
-    - Bigfork\SilverStripeGoogleTagManager\Extension\SiteConfigExtension
+    - 'Bigfork\SilverStripeGoogleTagManager\Extension\SiteConfigExtension'
 ---
-Name: 'googletagmanagerrequestprocessors'
-Before:
-  - '#requestprocessors'
+Name: googletagmanagermiddleware
 ---
-Injector:
-  RequestProcessor:
+SilverStripe\Core\Injector\Injector:
+  SilverStripe\Control\Director:
     properties:
-      filters:
-        - '%$Bigfork\SilverStripeGoogleTagManager\Control\RequestFilter'
+      Middlewares:
+        GoogleTagManagerMiddleware: '%$Bigfork\SilverStripeGoogleTagManager\Control\GoogleTagManagerMiddleware'
