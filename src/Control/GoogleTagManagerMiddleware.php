@@ -6,10 +6,11 @@ use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Control\HTTPResponse;
 use SilverStripe\Control\Middleware\HTTPMiddleware;
 use SilverStripe\SiteConfig\SiteConfig;
+use SilverStripe\View\Requirements;
 
 class GoogleTagManagerMiddleware implements HTTPMiddleware
 {
-    const NOSCRIPT_PLACEHOLDER = '%%NOSCRIPT_PLACEHOLDER%%';
+    const PLACEHOLDER = '%%GTM_PLACEHOLDER%%';
 
     public function process(HTTPRequest $request, callable $delegate)
     {
@@ -23,15 +24,22 @@ class GoogleTagManagerMiddleware implements HTTPMiddleware
 
             // Response body could be quite large, and we don't want the code inserted in the admin area, so we do a
             // "dumb" search for a placeholder added earlier in the request before using regular expressions
-            if (strpos($body, static::NOSCRIPT_PLACEHOLDER) !== false) {
-                $script = $siteConfig->renderWith('Bigfork\SilverStripeGoogleTagManager\GoogleTagManagerNoScript')
+            if (strpos($body, static::PLACEHOLDER) !== false) {
+                $script = $siteConfig->renderWith('Bigfork\SilverStripeGoogleTagManager\GoogleTagManagerSnippet')
+                    ->setProcessShortcodes(false)
+                    ->forTemplate();
+                $noScript = $siteConfig->renderWith('Bigfork\SilverStripeGoogleTagManager\GoogleTagManagerNoScript')
                     ->setProcessShortcodes(false)
                     ->forTemplate();
 
-                // Remove the placeholder and inject the noscript code
+                // Remove the placeholders and inject the snippets
                 // ...this isn't perfect, but it's far faster than DOMDocument
-                $body = str_replace(static::NOSCRIPT_PLACEHOLDER, '', $body);
-                $body = preg_replace('/(<body.*?>)/is', "$1\n{$script}", $body);
+                $body = str_replace(static::PLACEHOLDER, '', $body);
+                $body = preg_replace(
+                    ['/(<head.*?>)/is', '/(<body.*?>)/is'],
+                    ["$1\n{$script}", "$1\n{$noScript}"],
+                    $body
+                );
 
                 $response->setBody($body);
             }

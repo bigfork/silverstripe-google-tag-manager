@@ -17,9 +17,7 @@ class PageExtension extends Extension
     {
         $siteConfig = SiteConfig::current_site_config();
         if ($siteConfig->GTMContainerID) {
-            $snippet = $siteConfig->renderWith('Bigfork\SilverStripeGoogleTagManager\GoogleTagManagerSnippet');
-            Requirements::insertHeadTags($snippet->forTemplate());
-            Requirements::insertHeadTags(GoogleTagManagerMiddleware::NOSCRIPT_PLACEHOLDER);
+            Requirements::insertHeadTags(GoogleTagManagerMiddleware::PLACEHOLDER);
         }
     }
 }
