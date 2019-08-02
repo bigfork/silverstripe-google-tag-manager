@@ -36,7 +36,7 @@ class GoogleTagManagerMiddleware implements HTTPMiddleware
                 // ...this isn't perfect, but it's far faster than DOMDocument
                 $body = str_replace(static::PLACEHOLDER, '', $body);
                 $body = preg_replace(
-                    ['/(<head(\s?\>|\s(.*)?\>))/is', '/(<body(\s?\>|\s(.*)?\>))/is'],
+                    ['/(<head(\s?\>|\s[^>]*\>))/is', '/(<body(\s?\>|\s[^>]*\>))/is'],
                     ["$1\n{$script}", "$1\n{$noScript}"],
                     $body
                 );
