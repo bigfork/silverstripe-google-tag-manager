@@ -17,8 +17,7 @@ class PageExtension extends Extension
     {
         $siteConfig = SiteConfig::current_site_config();
         if ($siteConfig->GTMContainerID) {
-            Requirements::insertHeadTags($siteConfig->renderWith('GoogleTagManagerSnippet'));
-            Requirements::insertHeadTags(RequestFilter::NOSCRIPT_PLACEHOLDER);
+            Requirements::insertHeadTags(RequestFilter::PLACEHOLDER);
         }
     }
 }
