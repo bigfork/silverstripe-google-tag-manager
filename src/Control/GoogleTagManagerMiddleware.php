@@ -10,7 +10,7 @@ use SilverStripe\View\Requirements;
 
 class GoogleTagManagerMiddleware implements HTTPMiddleware
 {
-    const PLACEHOLDER = '%%GTM_PLACEHOLDER%%';
+    const PLACEHOLDER = '<!--%%GTM_PLACEHOLDER%%-->';
 
     public function process(HTTPRequest $request, callable $delegate)
     {
