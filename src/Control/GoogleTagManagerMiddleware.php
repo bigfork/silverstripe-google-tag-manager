@@ -24,7 +24,7 @@ class GoogleTagManagerMiddleware implements HTTPMiddleware
 
             // Response body could be quite large, and we don't want the code inserted in the admin area, so we do a
             // "dumb" search for a placeholder added earlier in the request before using regular expressions
-            if (strpos($body, static::PLACEHOLDER) !== false) {
+            if (strpos($body ?? '', static::PLACEHOLDER) !== false) {
                 $script = $siteConfig->renderWith('Bigfork\SilverStripeGoogleTagManager\GoogleTagManagerSnippet')
                     ->setProcessShortcodes(false)
                     ->forTemplate();
