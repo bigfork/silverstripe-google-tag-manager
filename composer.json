@@ -15,8 +15,8 @@
 	],
 	"license": "BSD-3-Clause",
 	"require": {
-        "silverstripe/framework": "^4",
-        "silverstripe/cms": "^4"
+		"silverstripe/framework": "^4|^5",
+		"silverstripe/cms": "^4|^5"
 	},
 	"extra": {
         "branch-alias": {
