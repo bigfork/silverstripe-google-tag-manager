@@ -2,6 +2,11 @@
 
 SilverStripe module to add Google Tag Manager code to all pages of a website.
 
+## Requirements
+
+-   silverstripe/cms ^4|^5
+-   silverstripe/framework ^4|^5
+
 ## Installation
 
 Download, clone or install from packagist (todo) into your Silverstripe root.
